@@ -1,0 +1,80 @@
+﻿<?php
+header('Content-Type: text/html;charset=UTF-8');
+include("conn.php"); 
+set_time_limit(6000);
+ini_set("memory_limit","24M");
+  $pnow=getdate();
+  $ppnow=$pnow['year'] . "-" . $pnow['mon'] . "-" .$pnow['mday'];
+  $sqlstr="SELECT count(0) FROM ((main INNER JOIN project ON main.Project_id = project.Project_id) INNER JOIN species ON main.scientific_name = species.scientific_name) INNER JOIN station ON main.id = station.id ";
+  $result=mysql_query($sqlstr,$link_ID);
+  $datas=mysql_fetch_row($result); 
+  $sn_index=$datas[0];
+  $groups=intval(($sn_index-1)/1000)+1;
+  for ($group=0; $group < $groups;$group++){
+    $sqlstr="SELECT species.*, main.*, station.*, project.* FROM ((main INNER JOIN project ON main.Project_id = project.Project_id) INNER JOIN species ON main.scientific_name = species.scientific_name) INNER JOIN station ON main.id = station.id LIMIT ". $group*1000 . ",1000";
+    $result=mysql_query($sqlstr,$link_ID);
+    $sn_index=mysql_num_rows($result);  
+    for ($index=0; $index < $sn_index ; $index++){
+     $arr[$index]=mysql_fetch_array($result); 
+     $filename="d:/wlterm/xml/WLTERM" . $arr[$index]['record_id'] . ".xml";
+     $fp = fopen($filename, 'w');
+	 fwrite($fp, "<?xml version='1.0' encoding='utf-8'?>");
+	 
+	 fwrite($fp, "<SimpleDarwinRecordSet");
+     fwrite($fp, " xmlns='http://rs.tdwg.org/dwc/xsd/simpledarwincore/'");
+      fwrite($fp, " xmlns:dc='http://purl.org/dc/terms/'");
+       fwrite($fp, " xmlns:dwc='http://rs.tdwg.org/dwc/terms/'");
+       fwrite($fp, " xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'");
+       fwrite($fp, " xsi:schemaLocation='http://rs.tdwg.org/dwc/xsd/simpledarwincore/ http://rs.tdwg.org/dwc/xsd/tdwg_dwc_simple.xsd'>");
+       fwrite($fp, "<SimpleDarwinRecord>");
+fwrite($fp, "<dc:modified>".$ppnow."</dc:modified>");
+fwrite($fp, "<dwc:occurrenceID>urn:lsid:wlterm.biodiv.sinica.edu.tw:observation:" . $arr[$index]['record_id']."</dwc:occurrenceID>");
+fwrite($fp, "<dwc:catalogNumber>".$arr[$index]['record_id']."</dwc:catalogNumber>");
+         fwrite($fp,"<dwc:scientificName>".$arr[$index]['scientific_name'] . "</dwc:scientificName>");
+         fwrite($fp, "<dwc:basisOfRecord>O</dwc:basisOfRecord>");
+         fwrite($fp,"<dwc:kingdom>". $arr[$index]['kingdom'] . "</dwc:kingdom>");
+         fwrite($fp, "<dwc:phylum>".$arr[$index]['phylum'] . "</dwc:phylum>");
+         fwrite($fp, "<dwc:class>".$arr[$index]['class'] . "</dwc:class>");
+         fwrite($fp, "<dwc:order>".$arr[$index]['order'] ."</dwc:order>");
+         fwrite($fp,"<dwc:family>".$arr[$index]['family'] . "</dwc:family>");
+         fwrite($fp, "<kingdomInChinese>".$arr[$index]['kingdom_c'] ."</kingdomInChinese>");
+         fwrite($fp, "<phylumInChinese>".$arr[$index]['phylum_c'] ."</phylumInChinese>");
+         fwrite($fp, "<classInChinese>".$arr[$index]['class_c'] ."</classInChinese>");
+         fwrite($fp, "<orderInChinese>".$arr[$index]['order_c'] ."</orderInChinese>");
+         fwrite($fp, "<familyInChinese>".$arr[$index]['family_c'] ."</familyInChinese>");
+         fwrite($fp,"<chineseName>".htmlspecialchars($arr[$index]['chinese']) ."</chineseName>");
+         fwrite($fp,"<dwc:scientificNameAuthorship>".htmlspecialchars($arr[$index]['author']) . "</dwc:scientificNameAuthorship>");
+         fwrite($fp,"<dwc:identifiedBy>".htmlspecialchars($arr[$index]['identified_by']) ."</dwc:identifiedBy>");
+         fwrite($fp,"<dwc:recordedBy>".htmlspecialchars($arr[$index]['collector']) ."</dwc:recordedBy>");
+         fwrite($fp,"<recordedByInChinese>".htmlspecialchars($arr[$index]['collector_chinese']) ."</recordedByInChinese>");
+          fwrite($fp, "<dwc:eventDate>".$arr[$index]['date']."</dwc:eventDate>");
+          fwrite($fp, "<eventDateEnd>".$arr[$index]['date_end']."</eventDateEnd>");
+         fwrite($fp,"<dwc:locality>".htmlspecialchars($arr[$index]['locality']) ."</dwc:locality>");
+         fwrite($fp,"<localityInChinese>".htmlspecialchars($arr[$index]['locality_chinese']) ."</localityInChinese>");
+         fwrite($fp,"<dwc:decimalLongitude>".$arr[$index]['longitude'] ."</dwc:decimalLongitude>");
+         fwrite($fp,"<dwc:decimalLatitude>".$arr[$index]['latitude'] ."</dwc:decimalLatitude>");
+         fwrite($fp,"<dwc:coordinateUncertaintyInMeters>".$arr[$index]['coordinate_precision'] ."</dwc:coordinateUncertaintyInMeters>");
+         fwrite($fp,"<dwc:minimumElevationInMeters>".$arr[$index]['minimum_elevation'] ."</dwc:minimumElevationInMeters>");
+         fwrite($fp,"<dwc:maximumElevationInMeters>".$arr[$index]['maximum_elevation'] ."</dwc:maximumElevationInMeters>");
+         fwrite($fp,"<dwc:minimumDepthInMeters>".$arr[$index]['minimum_depth'] ."</dwc:minimumDepthInMeters>");
+         fwrite($fp,"<dwc:maximumDepthInMeters>".$arr[$index]['maximum_depth'] ."</dwc:maximumDepthInMeters>");
+         fwrite($fp,"<dwc:individualCount>".$arr[$index]['individual_count'] ."</dwc:individualCount>");
+         fwrite($fp,"<dwc:occurrenceDetails>全天光空域:" .  $arr[$index]['全天光空域'] . ", 直射光空域:" . $arr[$index]['直射光空域'] . ", 測站描述:" . $arr[$index]['Locality_Describe']."</dwc:occurrenceDetails>");
+         fwrite($fp,"<projectName>".$arr[$index]['projectname'] ."</projectName>");
+         fwrite($fp,"<executivePeriod>".$arr[$index]['executiveperiod'] ."</executivePeriod>");
+         fwrite($fp,"<associatedAgency>".htmlspecialchars($arr[$index]['associatedagency']) ."</associatedAgency>");
+         fwrite($fp,"<executiveAgency>".htmlspecialchars($arr[$index]['executiveagency']) ."</executiveAgency>");
+         fwrite($fp,"<hostName>".htmlspecialchars($arr[$index]['hostname']) ."</hostName>");
+         fwrite($fp,"<hostNameInChinese>".htmlspecialchars($arr[$index]['hostname_chinese']) ."</hostNameInChinese>");
+         fwrite($fp,"<hostAddress>".htmlspecialchars($arr[$index]['hostaddress']) ."</hostAddress>");
+         fwrite($fp,"<e-Mail>".htmlspecialchars($arr[$index]['hoste_mail']) ."</e-Mail>");
+         fwrite($fp,"<coordination>".htmlspecialchars($arr[$index]['coordination']) ."</coordination>");
+         fwrite($fp,"<executiveWay>".htmlspecialchars($arr[$index]['executiveway']) ."</executiveWay>");
+         fwrite($fp,"<projectSummary>".htmlspecialchars($arr[$index]['projectsummary']) ."</projectSummary>");
+   fwrite($fp, "</SimpleDarwinRecord>"); 
+   fwrite($fp, "</SimpleDarwinRecordSet>"); 
+   fclose($fp);   
+     }
+	}
+echo "Done!";
+?>

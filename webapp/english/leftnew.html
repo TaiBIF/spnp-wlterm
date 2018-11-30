@@ -1,0 +1,123 @@
+<html>
+<head>
+<title>WLTERM</title>
+	<Script Language="JavaScript">
+nMaxItem = 4;
+NameIndex = 0;
+DefaultState = 1;
+
+MouseOverState = 2;
+MouseDownState = 3;
+imgCounter = 0;
+
+ImageList = new Array();
+
+bIsSupportOK = (
+	((navigator.appName == "Netscape") && (parseInt(navigator.appVersion) >= 3 )) ||
+	((navigator.appName == "Microsoft Internet Explorer") && (parseInt(navigator.appVersion) >= 4 ))
+);
+
+function AddImageToImageList(name, Default, MouseOver, MouseDown)
+{
+	ImageList[imgCounter] = new Array(nMaxItem);
+	ImageList[imgCounter][NameIndex] = name;
+	ImageList[imgCounter][DefaultState] = new Image();
+	ImageList[imgCounter][DefaultState].src = Default;
+	if (MouseOver != "") {
+		ImageList[imgCounter][MouseOverState] = new Image();
+		ImageList[imgCounter][MouseOverState].src = MouseOver;
+	}
+	if (MouseDown != "") {
+		ImageList[imgCounter][MouseDownState] = new Image();
+		ImageList[imgCounter][MouseDownState].src = MouseDown;
+	}
+
+	imgCounter++;
+}
+
+function ReplaceImage(name, state)
+{
+	for (i = 0; i < imgCounter; i++) {
+		if (document.images[ImageList[i][NameIndex]] != null) {
+			if ((name == ImageList[i][NameIndex]) && (ImageList[i][state] != null))
+				document.images[name].src = ImageList[i][state].src;
+		}
+	}
+}
+
+
+AddImageToImageList("U1", "images/leftnew1.jpg", "images/leftnew1b.jpg","images/leftnew1b.jpg");
+AddImageToImageList("U2", "images/leftnew2.jpg", "images/leftnew2b.jpg","images/leftnew2b.jpg");
+AddImageToImageList("U3", "images/leftnew3.jpg", "images/leftnew3b.jpg","images/leftnew3b.jpg");
+AddImageToImageList("U4", "images/leftnew4.jpg", "images/leftnew4b.jpg","images/leftnew4b.jpg");
+AddImageToImageList("U5", "images/leftnew5.jpg", "images/leftnew5b.jpg","images/leftnew5b.jpg");
+AddImageToImageList("U6", "images/leftnew6.jpg", "images/leftnew6b.jpg","images/leftnew6b.jpg");
+AddImageToImageList("U7", "images/leftnew7.jpg", "images/leftnew7b.jpg","images/leftnew7b.jpg");
+AddImageToImageList("U8", "images/leftnew8.jpg", "images/leftnew8b.jpg","images/leftnew8b.jpg");
+AddImageToImageList("U9", "images/leftnew9.jpg", "images/leftnew9b.jpg","images/leftnew9b.jpg");
+AddImageToImageList("U10", "images/leftnew10.jpg", "images/leftnew10b.jpg","images/leftnew10b.jpg");
+AddImageToImageList("U11", "images/leftnew11.jpg", "images/leftnew11b.jpg","images/leftnew11b.jpg");
+AddImageToImageList("U12", "images/leftnew12.jpg", "images/leftnew12b.jpg","images/leftnew12b.jpg");
+AddImageToImageList("U13", "images/leftnew13.jpg", "images/leftnew13b.jpg","images/leftnew13b.jpg");
+AddImageToImageList("U14", "images/leftnew14.jpg", "images/leftnew14b.jpg","images/leftnew14b.jpg");
+
+// ------------>
+</Script>
+
+
+<base target="main">
+
+
+</head>
+<body>
+<div align="left">
+  <table border="0" cellpadding="0" cellspacing="0" >
+    <tr>
+      <td valign="top" align="center" height="34"><a href="http://wlterm.biodiv.sinica.edu.tw/english/bottom.htm" target="main"  ONMOUSEDOWN="if (bIsSupportOK) ReplaceImage('U1', MouseDownState);" ONMOUSEUP="if (bIsSupportOK) ReplaceImage('U1', MouseOverState);" ONMOUSEOUT="if (bIsSupportOK) ReplaceImage('U1',DefaultState);" ONMOUSEOVER="if (bIsSupportOK) ReplaceImage('U1', MouseOverState);"><LAYER ID="xxID2_layer" ONMOUSEOVER=" swap_xxID2.onmouseover(event,this);;" ONMOUSEOUT=" swap_xxID2.onmouseout(event,this);"><img name="U1" alt="計畫簡介" border="0" src="images/leftnew1.jpg" width="140" height="29"></a></td>
+    </tr>
+    <tr>
+      <td valign="top" align="center" height="34"><a href="http://wlterm.biodiv.sinica.edu.tw/english/photo.asp" target="main"  ONMOUSEDOWN="if (bIsSupportOK) ReplaceImage('U2', MouseDownState);" ONMOUSEUP="if (bIsSupportOK) ReplaceImage('U2', MouseOverState);" ONMOUSEOUT="if (bIsSupportOK) ReplaceImage('U2',DefaultState);" ONMOUSEOVER="if (bIsSupportOK) ReplaceImage('U2', MouseOverState);"><LAYER ID="xxID2_layer" ONMOUSEOVER=" swap_xxID2.onmouseover(event,this);;" ONMOUSEOUT=" swap_xxID2.onmouseout(event,this);"><img name="U2" alt="現場影像" border="0" src="images/leftnew2.jpg" width="140" height="29"></a></td>
+    </tr>
+    <tr>
+      <td valign="top" align="center" height="34"><a href="http://wlterm.biodiv.sinica.edu.tw/english/mapL.asp" target="main"  ONMOUSEDOWN="if (bIsSupportOK) ReplaceImage('U3', MouseDownState);" ONMOUSEUP="if (bIsSupportOK) ReplaceImage('U3', MouseOverState);" ONMOUSEOUT="if (bIsSupportOK) ReplaceImage('U3',DefaultState);" ONMOUSEOVER="if (bIsSupportOK) ReplaceImage('U3', MouseOverState);"><LAYER ID="xxID2_layer" ONMOUSEOVER=" swap_xxID2.onmouseover(event,this);;" ONMOUSEOUT=" swap_xxID2.onmouseout(event,this);"><img name="U3" alt="測站簡圖" border="0" src="images/leftnew3.jpg" width="140" height="29"></a></td>
+    </tr>
+    <tr>
+      <td valign="top" align="center" height="34"><a href="http://wlterm.biodiv.sinica.edu.tw/LocalMapE.asp?id=0&pid=0" target="main"  ONMOUSEDOWN="if (bIsSupportOK) ReplaceImage('U4', MouseDownState);" ONMOUSEUP="if (bIsSupportOK) ReplaceImage('U4', MouseOverState);" ONMOUSEOUT="if (bIsSupportOK) ReplaceImage('U4',DefaultState);" ONMOUSEOVER="if (bIsSupportOK) ReplaceImage('U4', MouseOverState);"><LAYER ID="xxID2_layer" ONMOUSEOVER=" swap_xxID2.onmouseover(event,this);;" ONMOUSEOUT=" swap_xxID2.onmouseout(event,this);"><img name="U4" alt="衛星地圖" border="0" src="images/leftnew4.jpg" width="140" height="29"></a></td>
+    </tr>
+    <tr>
+      <td valign="top" align="center" height="34"><a href="http://wlterm.biodiv.sinica.edu.tw/english/familyList.asp" target="main"   ONMOUSEDOWN="if (bIsSupportOK) ReplaceImage('U5', MouseDownState);" ONMOUSEUP="if (bIsSupportOK) ReplaceImage('U5', MouseOverState);" ONMOUSEOUT="if (bIsSupportOK) ReplaceImage('U5',DefaultState);" ONMOUSEOVER="if (bIsSupportOK) ReplaceImage('U5', MouseOverState);"><LAYER ID="xxID2_layer" ONMOUSEOVER=" swap_xxID2.onmouseover(event,this);;" ONMOUSEOUT=" swap_xxID2.onmouseout(event,this);"><img name="U5" alt="科別統計" border="0" src="images/leftnew5.jpg" width="140" height="29"></a></td>
+    </tr>
+    <tr>
+      <td valign="top" align="center" height="34"><a href="http://wlterm.biodiv.sinica.edu.tw/english/speciesList.asp" target="main"  ONMOUSEDOWN="if (bIsSupportOK) ReplaceImage('U6', MouseDownState);" ONMOUSEUP="if (bIsSupportOK) ReplaceImage('U6', MouseOverState);" ONMOUSEOUT="if (bIsSupportOK) ReplaceImage('U6',DefaultState);" ONMOUSEOVER="if (bIsSupportOK) ReplaceImage('U6', MouseOverState);"><LAYER ID="xxID2_layer" ONMOUSEOVER=" swap_xxID2.onmouseover(event,this);;" ONMOUSEOUT=" swap_xxID2.onmouseout(event,this);"><img name="U6" alt="物種統計" border="0" src="images/leftnew6.jpg" width="140" height="29"></a></td>
+    </tr>
+    <tr>
+      <td valign="top" align="center" height="34"><a href="http://wlterm.biodiv.sinica.edu.tw/english/record_list.asp" target="main"   ONMOUSEDOWN="if (bIsSupportOK) ReplaceImage('U7', MouseDownState);" ONMOUSEUP="if (bIsSupportOK) ReplaceImage('U7', MouseOverState);" ONMOUSEOUT="if (bIsSupportOK) ReplaceImage('U7',DefaultState);" ONMOUSEOVER="if (bIsSupportOK) ReplaceImage('U7', MouseOverState);"><LAYER ID="xxID2_layer" ONMOUSEOVER=" swap_xxID2.onmouseover(event,this);;" ONMOUSEOUT=" swap_xxID2.onmouseout(event,this);"><img name="U7" alt="物種紀錄" border="0" src="images/leftnew7.jpg" width="140" height="29"></a></td>
+    </tr>
+    <tr>
+      <td valign="top" align="center" height="34"><a href="http://wlterm.biodiv.sinica.edu.tw/english/WaterQ.asp?PI=3&D1=ALL" target="main"   ONMOUSEDOWN="if (bIsSupportOK) ReplaceImage('U8', MouseDownState);" ONMOUSEUP="if (bIsSupportOK) ReplaceImage('U8', MouseOverState);" ONMOUSEOUT="if (bIsSupportOK) ReplaceImage('U8',DefaultState);" ONMOUSEOVER="if (bIsSupportOK) ReplaceImage('U8', MouseOverState);"><LAYER ID="xxID2_layer" ONMOUSEOVER=" swap_xxID2.onmouseover(event,this);;" ONMOUSEOUT=" swap_xxID2.onmouseout(event,this);"><img name="U8" alt="水質調查" border="0" src="images/leftnew8.jpg" width="140" height="29"></a></td>
+    </tr>
+    <tr>
+      <td valign="top" align="center" height="34"><a href="http://wlterm.biodiv.sinica.edu.tw/english/WaterQ.asp?PI=4&D1=ALL" target="main"   ONMOUSEDOWN="if (bIsSupportOK) ReplaceImage('U9', MouseDownState);" ONMOUSEUP="if (bIsSupportOK) ReplaceImage('U9', MouseOverState);" ONMOUSEOUT="if (bIsSupportOK) ReplaceImage('U9',DefaultState);" ONMOUSEOVER="if (bIsSupportOK) ReplaceImage('U9', MouseOverState);"><LAYER ID="xxID2_layer" ONMOUSEOVER=" swap_xxID2.onmouseover(event,this);;" ONMOUSEOUT=" swap_xxID2.onmouseout(event,this);"><img name="U9" alt="硝  酸  鹽" border="0" src="images/leftnew9.jpg" width="140" height="29"></a></td>
+    </tr>
+    <tr>
+      <td valign="top" align="center" height="34"><a href="http://wlterm.biodiv.sinica.edu.tw/english/WaterQ.asp?PI=13&D1=ALL" target="main"   ONMOUSEDOWN="if (bIsSupportOK) ReplaceImage('U10', MouseDownState);" ONMOUSEUP="if (bIsSupportOK) ReplaceImage('U10', MouseOverState);" ONMOUSEOUT="if (bIsSupportOK) ReplaceImage('U10',DefaultState);" ONMOUSEOVER="if (bIsSupportOK) ReplaceImage('U10', MouseOverState);"><LAYER ID="xxID2_layer" ONMOUSEOVER=" swap_xxID2.onmouseover(event,this);;" ONMOUSEOUT=" swap_xxID2.onmouseout(event,this);"><img name="U10" alt="元素通量" border="0" src="images/leftnew10.jpg" width="140" height="29"></a></td>
+    </tr>
+    <tr>
+      <td valign="top" align="center" height="34"><a href="http://wlterm.biodiv.sinica.edu.tw/english/temperature.asp" target="main"   ONMOUSEDOWN="if (bIsSupportOK) ReplaceImage('U11', MouseDownState);" ONMOUSEUP="if (bIsSupportOK) ReplaceImage('U11', MouseOverState);" ONMOUSEOUT="if (bIsSupportOK) ReplaceImage('U11',DefaultState);" ONMOUSEOVER="if (bIsSupportOK) ReplaceImage('U11', MouseOverState);"><LAYER ID="xxID2_layer" ONMOUSEOVER=" swap_xxID2.onmouseover(event,this);;" ONMOUSEOUT=" swap_xxID2.onmouseout(event,this);"><img name="U11" alt="溫度監測" border="0" src="images/leftnew11.jpg" width="140" height="29"></a></td>
+    </tr>
+    <tr>
+      <td valign="top" align="center" height="34"><a href="http://wlterm.biodiv.sinica.edu.tw/english/WaterQ.asp?PI=1&D1=ALL" target="main"   ONMOUSEDOWN="if (bIsSupportOK) ReplaceImage('U12', MouseDownState);" ONMOUSEUP="if (bIsSupportOK) ReplaceImage('U12', MouseOverState);" ONMOUSEOUT="if (bIsSupportOK) ReplaceImage('U12',DefaultState);" ONMOUSEOVER="if (bIsSupportOK) ReplaceImage('U12', MouseOverState);"><LAYER ID="xxID2_layer" ONMOUSEOVER=" swap_xxID2.onmouseover(event,this);;" ONMOUSEOUT=" swap_xxID2.onmouseout(event,this);"><img name="U12" alt="藻類碎屑" border="0" src="images/leftnew12.jpg" width="140" height="29"></a></td>
+    </tr>
+    <tr>
+      <td valign="top" align="center" height="34"><a href="http://wlterm.biodiv.sinica.edu.tw/english/ReportPpt.htm" target="main"   ONMOUSEDOWN="if (bIsSupportOK) ReplaceImage('U13', MouseDownState);" ONMOUSEUP="if (bIsSupportOK) ReplaceImage('U13', MouseOverState);" ONMOUSEOUT="if (bIsSupportOK) ReplaceImage('U13',DefaultState);" ONMOUSEOVER="if (bIsSupportOK) ReplaceImage('U13', MouseOverState);"><LAYER ID="xxID2_layer" ONMOUSEOVER=" swap_xxID2.onmouseover(event,this);;" ONMOUSEOUT=" swap_xxID2.onmouseout(event,this);"><img name="U13" alt="期末報告" border="0" src="images/leftnew13.jpg" width="140" height="29"></a></td>
+    </tr>
+    <tr>
+      <td valign="top" align="center" height="34"><a href="http://wlterm.biodiv.sinica.edu.tw/english/login.asp" target="main"   ONMOUSEDOWN="if (bIsSupportOK) ReplaceImage('U14', MouseDownState);" ONMOUSEUP="if (bIsSupportOK) ReplaceImage('U14', MouseOverState);" ONMOUSEOUT="if (bIsSupportOK) ReplaceImage('U14',DefaultState);" ONMOUSEOVER="if (bIsSupportOK) ReplaceImage('U14', MouseOverState);"><LAYER ID="xxID2_layer" ONMOUSEOVER=" swap_xxID2.onmouseover(event,this);;" ONMOUSEOUT=" swap_xxID2.onmouseout(event,this);"><img name="U14" alt="維護操作" border="0" src="images/leftnew14.jpg" width="140" height="29"></a></td>
+    </tr>
+    <tr>
+      <td valign="top" align="center" height="34"><a href="http://wlterm.biodiv.sinica.edu.tw/index.htm" target="_top"  ><img  alt="Chinese Version" border="0" src="images/chinese.gif" width="140" height="29"></a></td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

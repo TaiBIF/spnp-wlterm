@@ -1,0 +1,74 @@
+﻿<?php
+header('Content-Type: text/html;charset=UTF-8');
+include("conn.php"); 
+set_time_limit(6000);
+ini_set("memory_limit","24M");
+  $pnow=getdate();
+  $ppnow=$pnow['year'] . "-" . $pnow['mon'] . "-" .$pnow['mday'];
+  $sqlstr="SELECT count(0) FROM ((main INNER JOIN project ON main.Project_id = project.Project_id) INNER JOIN species ON main.scientific_name = species.scientific_name) INNER JOIN station ON main.id = station.id";
+  $result=mysql_query($sqlstr,$link_ID);
+  $datas=mysql_fetch_row($result); 
+  $sn_index=$datas[0];
+  $groups=intval(($sn_index-1)/1000)+1;
+  for ($group=0; $group < $groups;$group++){
+    $sqlstr="SELECT species.*, main.*, station.*, project.* FROM ((main INNER JOIN project ON main.Project_id = project.Project_id) INNER JOIN species ON main.scientific_name = species.scientific_name) INNER JOIN station ON main.id = station.id LIMIT ". $group*1000 . ",1000";
+    $result=mysql_query($sqlstr,$link_ID);
+    $sn_index=mysql_num_rows($result);  
+    for ($index=0; $index < $sn_index ; $index++){
+     $arr[$index]=mysql_fetch_array($result); 
+     $filename="d:/wlterm/xml/WLTERM" . $arr[$index]['record_id'] . ".xml";
+     $fp = fopen($filename, 'w');
+	 fwrite($fp, "<?xml version='1.0' encoding='utf-8'?>");
+	 fwrite($fp, "<Document xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://wlterm.biodiv.sinica.edu.tw/DarwinCoreWLTERM.xsd'>");
+fwrite($fp, "<MetaDesc>");    
+fwrite($fp, "<DateLastModified>".$ppnow."</DateLastModified>");
+fwrite($fp, "<GlobalUniqueIdentifier>urn:lsid:wlterm.biodiv.sinica.edu.tw:observation:" . $arr[$index]['record_id']."</GlobalUniqueIdentifier>");
+fwrite($fp, "<CatalogNumber>".$arr[$index]['record_id']."</CatalogNumber>");
+         fwrite($fp,"<ScientificName>".$arr[$index]['scientific_name'] . "</ScientificName>");
+         fwrite($fp, "<BasisOfRecord>O</BasisOfRecord>");
+         fwrite($fp,"<Kingdom>". $arr[$index]['kingdom'] . "</Kingdom>");
+         fwrite($fp, "<Phylum>".$arr[$index]['phylum'] . "</Phylum>");
+         fwrite($fp, "<Class>".$arr[$index]['class'] . "</Class>");
+         fwrite($fp, "<Order>".$arr[$index]['order'] ."</Order>");
+         fwrite($fp,"<Family>".$arr[$index]['family'] . "</Family>");
+         fwrite($fp, "<KingdomInChinese>".$arr[$index]['kingdom_c'] ."</KingdomInChinese>");
+         fwrite($fp, "<PhylumInChinese>".$arr[$index]['phylum_c'] ."</PhylumInChinese>");
+         fwrite($fp, "<ClassInChinese>".$arr[$index]['class_c'] ."</ClassInChinese>");
+         fwrite($fp, "<OrderInChinese>".$arr[$index]['order_c'] ."</OrderInChinese>");
+         fwrite($fp, "<FamilyInChinese>".$arr[$index]['family_c'] ."</FamilyInChinese>");
+         fwrite($fp,"<ChineseName>".htmlspecialchars($arr[$index]['chinese']) ."</ChineseName>");
+         fwrite($fp,"<AuthorYearOfScientificName>".htmlspecialchars($arr[$index]['author']) . "</AuthorYearOfScientificName>");
+         fwrite($fp,"<IdentifiedBy>".htmlspecialchars($arr[$index]['identified_by']) ."</IdentifiedBy>");
+         fwrite($fp,"<Collector>".htmlspecialchars($arr[$index]['collector']) ."</Collector>");
+         fwrite($fp,"<CollectorInChinese>".htmlspecialchars($arr[$index]['collector_chinese']) ."</CollectorInChinese>");
+          fwrite($fp, "<EarliestDateCollected>".$arr[$index]['date']."</EarliestDateCollected>");
+          fwrite($fp, "<LatestDateCollected>".$arr[$index]['date_end']."</LatestDateCollected>");
+         fwrite($fp,"<Locality>".htmlspecialchars($arr[$index]['locality']) ."</Locality>");
+         fwrite($fp,"<LocalityInChinese>".htmlspecialchars($arr[$index]['locality_chinese']) ."</LocalityInChinese>");
+         fwrite($fp,"<DecimalLongitude>".$arr[$index]['longitude'] ."</DecimalLongitude>");
+         fwrite($fp,"<DecimalLatitude>".$arr[$index]['latitude'] ."</DecimalLatitude>");
+         fwrite($fp,"<CoordinateUncertaintyInMeters>".$arr[$index]['coordinate_precision'] ."</CoordinateUncertaintyInMeters>");
+         fwrite($fp,"<MinimumElevationInMeters>".$arr[$index]['minimum_elevation'] ."</MinimumElevationInMeters>");
+         fwrite($fp,"<MaximumElevationInMeters>".$arr[$index]['maximum_elevation'] ."</MaximumElevationInMeters>");
+         fwrite($fp,"<MinimumDepthInMeters>".$arr[$index]['minimum_depth'] ."</MinimumDepthInMeters>");
+         fwrite($fp,"<MaximumDepthInMeters>".$arr[$index]['maximum_depth'] ."</MaximumDepthInMeters>");
+         fwrite($fp,"<IndividualCount>".$arr[$index]['individual_count'] ."</IndividualCount>");
+         fwrite($fp,"<RelatedInformation>全天光空域:" .  $arr[$index]['全天光空域'] . ", 直射光空域:" . $arr[$index]['直射光空域'] . ", 測站描述:" . $arr[$index]['Locality_Describe']."</RelatedInformation>");
+         fwrite($fp,"<ProjectName>".$arr[$index]['projectname'] ."</ProjectName>");
+         fwrite($fp,"<ExecutivePeriod>".$arr[$index]['executiveperiod'] ."</ExecutivePeriod>");
+         fwrite($fp,"<AssociatedAgency>".htmlspecialchars($arr[$index]['associatedagency']) ."</AssociatedAgency>");
+         fwrite($fp,"<ExecutiveAgency>".htmlspecialchars($arr[$index]['executiveagency']) ."</ExecutiveAgency>");
+         fwrite($fp,"<HostName>".htmlspecialchars($arr[$index]['hostname']) ."</HostName>");
+         fwrite($fp,"<HostNameInChinese>".htmlspecialchars($arr[$index]['hostname_chinese']) ."</HostNameInChinese>");
+         fwrite($fp,"<HostAddress>".htmlspecialchars($arr[$index]['hostaddress']) ."</HostAddress>");
+         fwrite($fp,"<E-Mail>".htmlspecialchars($arr[$index]['hoste_mail']) ."</E-Mail>");
+         fwrite($fp,"<Coordination>".htmlspecialchars($arr[$index]['coordination']) ."</Coordination>");
+         fwrite($fp,"<ExecutiveWay>".htmlspecialchars($arr[$index]['executiveway']) ."</ExecutiveWay>");
+         fwrite($fp,"<ProjectSummary>".htmlspecialchars($arr[$index]['projectsummary']) ."</ProjectSummary>");
+   fwrite($fp, "</MetaDesc>"); 
+   fwrite($fp, "</Document>"); 
+   fclose($fp);   
+     }
+	}
+echo "Done!";
+?>
