@@ -1,4 +1,5 @@
 .DS_Store
+Icon$'\r'
 archive
 webapp/conn_clean.php
 webapp/conn.php
