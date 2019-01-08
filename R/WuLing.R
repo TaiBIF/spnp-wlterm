@@ -11,6 +11,12 @@ library(stringr)
 library(measurements)
 library(zoo)
 library(gridExtra)
+library(svglite)
+library(showtext)
+showtext_auto(enable = T)
+# zz <- sys_fonts()
+font_add("PingFang TC", "/System/Library/Fonts/PingFang.ttc")
+
 
 
 # algae 2018 ==========
@@ -218,7 +224,8 @@ p1 <- ggplot(algae2018.mean , aes(date, mean.bio, colour = as.character(id) )) +
     geom_point() +
     
     labs(title = '2018各樣站每月藻類平均葉綠素a濃度', x = '月份', y = '平均葉綠素a濃度', color='樣站') +
-    theme(text=element_text(family="蘋方-繁 標準體", size=14))
+    theme(text=element_text(family="蘋方-繁 標準體", size=14)) +
+    scale_x_date(date_breaks = "months" , date_labels = "%b")
 
 
 
@@ -227,7 +234,8 @@ p2 <- ggplot(amphibia2018.total[amphibia2018.total$notes == '成蛙', ] , aes(da
     geom_point() +
     
     labs(title = '2018各樣站每月成蛙總數', x = '月份', y = '成蛙總數', color='樣站') +
-    theme(text=element_text(family="蘋方-繁 標準體", size=14))
+    theme(text=element_text(family="蘋方-繁 標準體", size=14))+
+    scale_x_date(date_breaks = "months" , date_labels = "%b")
 
 
 p3 <- ggplot(fish2018.total[fish2018.total$scientific_name == "Oncorhynchus formosanus", ] , aes(date, total, colour = as.character(id) )) + 
@@ -235,14 +243,16 @@ p3 <- ggplot(fish2018.total[fish2018.total$scientific_name == "Oncorhynchus form
     geom_point() +
     
     labs(title = '2018各樣站每月臺灣櫻花鉤吻鮭總數', x = '月份', y = '櫻花鉤吻鮭總數', color='樣站') +
-    theme(text=element_text(family="蘋方-繁 標準體", size=14))
+    theme(text=element_text(family="蘋方-繁 標準體", size=14))+
+    scale_x_date(date_breaks = "months" , date_labels = "%b")
 
 p4 <- ggplot(bird2018.total, aes(date, total, colour = as.character(id) )) + 
     geom_line() + 
     geom_point() +
     
     labs(title = '2018各樣站每月河烏總數', x = '月份', y = '河烏總數', color='樣站') +
-    theme(text=element_text(family="蘋方-繁 標準體", size=14))
+    theme(text=element_text(family="蘋方-繁 標準體", size=14))+
+    scale_x_date(date_breaks = "months" , date_labels = "%b")
 
 
 p5 <- ggplot(insect2018.total, aes(date, total, colour = as.character(id) )) + 
@@ -250,10 +260,13 @@ p5 <- ggplot(insect2018.total, aes(date, total, colour = as.character(id) )) +
     geom_point() +
     
     labs(title = '2018各樣站每月流石蛾科總數', x = '月份', y = '流石蛾科總數', color='樣站') +
-    theme(text=element_text(family="蘋方-繁 標準體", size=14))
+    theme(text=element_text(family="蘋方-繁 標準體", size=14))+
+    scale_x_date(date_breaks = "months" , date_labels = "%b")
 
 figures2018 <- grid.arrange(p1, p2, p3, p4, p5, nrow = 2, ncol = 3)
 ggsave('figures2018.png', plot = figures2018, dpi = 500, width = 36, height = 24, units = 'cm', device = 'png')
+ggsave('figures2018.svg', plot = figures2018, dpi = 500, width = 36, height = 24, units = 'cm', device = 'svg')
+
 
 # env ====
 p6 <- ggplot(water2018, aes(date, Temperature, colour = as.character(id) )) + 
@@ -261,38 +274,44 @@ p6 <- ggplot(water2018, aes(date, Temperature, colour = as.character(id) )) +
     geom_point() +
     
     labs(title = '2018各樣站每月溫度', x = '月份', y = '溫度(℃)', color='樣站') +
-    theme(text=element_text(family="蘋方-繁 標準體", size=14))
+    theme(text=element_text(family="蘋方-繁 標準體", size=14))+
+    scale_x_date(date_breaks = "months" , date_labels = "%b")
 
 p7 <- ggplot(water2018, aes(date, as.numeric(DO), colour = as.character(id) )) + 
     geom_line() + 
     geom_point() +
     
     labs(title = '2018各樣站每月溶氧', x = '月份', y = '溶氧（mg/L）', color='樣站') +
-    theme(text=element_text(family="蘋方-繁 標準體", size=14))
+    theme(text=element_text(family="蘋方-繁 標準體", size=14))+
+    scale_x_date(date_breaks = "months" , date_labels = "%b")
 
 p8 <- ggplot(water2018, aes(date, NO3_N, colour = as.character(id) )) + 
     geom_line() + 
     geom_point() +
     
     labs(title = '2018各樣站每月硝酸鹽氮', x = '月份', y = '硝酸鹽氮（mg/L）', color='樣站') +
-    theme(text=element_text(family="蘋方-繁 標準體", size=14))
+    theme(text=element_text(family="蘋方-繁 標準體", size=14))+
+    scale_x_date(date_breaks = "months" , date_labels = "%b")
 
 p9 <- ggplot(water2018, aes(date, as.numeric(NO2_N), colour = as.character(id) )) + 
     geom_line() + 
     geom_point() +
     
     labs(title = '2018各樣站每月亞硝酸鹽氮', x = '月份', y = '亞硝酸鹽氮（µg/L）', color='樣站') +
-    theme(text=element_text(family="蘋方-繁 標準體", size=14))
+    theme(text=element_text(family="蘋方-繁 標準體", size=14))+
+    scale_x_date(date_breaks = "months" , date_labels = "%b")
 
 p10 <- ggplot(water2018, aes(date, TOC, colour = as.character(id) )) + 
     geom_line() + 
     geom_point() +
     
     labs(title = '2018各樣站每月總有機碳', x = '月份', y = '總有機碳（mg/L）', color='樣站') +
-    theme(text=element_text(family="蘋方-繁 標準體", size=14))
+    theme(text=element_text(family="蘋方-繁 標準體", size=14))+
+    scale_x_date(date_breaks = "months" , date_labels = "%b")
 
 figures2018.env <- grid.arrange(p6, p7, p8, p9, p10, nrow = 2, ncol = 3)
 ggsave('figures2018_env.png', plot = figures2018.env, dpi = 500, width = 36, height = 24, units = 'cm', device = 'png')
+ggsave('figures2018_env.svg', plot = figures2018.env, dpi = 500, width = 36, height = 24, units = 'cm', device = 'svg')
 
 # plot all sub-group data of each site into one figure =====
 # env as example
@@ -303,6 +322,7 @@ water2018.12 <- water2018[water2018$id == '12', ]
 
 # plot
 png('env12.png', width = 36, height = 24, units = 'cm', res = 500)
+svg('env12.svg', width = 14, height = 9.5, family="mono")
 # Define Margins. The trick is to use give as much space possible on the left margin (second value)
 par(mar = c(5, 18, 4, 4) + 0.1, xpd = T)
 
@@ -348,13 +368,20 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.12$date, format(water2018.12$date, "%b"), cex.axis = .7)
+# axis(1, water2018.12$date, format(water2018.12$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.12$date)), as.Date(max(water2018.12$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
 legend('bottomright', legend = c('Temperature', 'DO', 'NO3-N', 'NO2-N', 'TOC'),pch = c(20, 18, 17, 15, 1), col = c('#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00'), bty = 'n', xpd = T, y.intersp = 0.8, x.intersp = 0.7)
 
 dev.off()
+
+
+
+
+
 
 # spe of site 12 ===========
 
@@ -445,7 +472,10 @@ mtext(2, text = '流石蛾科總數', line = 16.2, family = "蘋方-繁 標準�
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.12$date, format(amphibia2018.total.12$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.12$date, format(amphibia2018.total.12$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.12$date)), as.Date(max(amphibia2018.total.12$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
@@ -506,7 +536,10 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.13$date, format(water2018.13$date, "%b"), cex.axis = .7)
+# axis(1, water2018.13$date, format(water2018.13$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.13$date)), as.Date(max(water2018.13$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
@@ -600,7 +633,10 @@ mtext(2, text = '流石蛾科總數', line = 16.2, family = "蘋方-繁 標準�
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.13$date, format(amphibia2018.total.13$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.13$date, format(amphibia2018.total.13$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.13$date)), as.Date(max(amphibia2018.total.13$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
@@ -660,7 +696,10 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.8$date, format(water2018.8$date, "%b"), cex.axis = .7)
+# axis(1, water2018.8$date, format(water2018.8$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.8$date)), as.Date(max(water2018.8$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
@@ -759,7 +798,10 @@ mtext(2, text = '流石蛾科總數', line = 16.2, family = "蘋方-繁 標準�
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.8$date, format(amphibia2018.total.8$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.8$date, format(amphibia2018.total.8$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.8$date)), as.Date(max(amphibia2018.total.8$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
@@ -820,7 +862,10 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.9$date, format(water2018.9$date, "%b"), cex.axis = .7)
+# axis(1, water2018.9$date, format(water2018.9$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.9$date)), as.Date(max(water2018.9$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
@@ -880,7 +925,10 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.2$date, format(water2018.2$date, "%b"), cex.axis = .7)
+# axis(1, water2018.2$date, format(water2018.2$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.2$date)), as.Date(max(water2018.2$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
@@ -940,7 +988,10 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.3$date, format(water2018.3$date, "%b"), cex.axis = .7)
+# axis(1, water2018.3$date, format(water2018.3$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.3$date)), as.Date(max(water2018.3$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
@@ -1001,7 +1052,10 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.4$date, format(water2018.4$date, "%b"), cex.axis = .7)
+# axis(1, water2018.4$date, format(water2018.4$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.4$date)), as.Date(max(water2018.4$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
@@ -1061,7 +1115,10 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.5$date, format(water2018.5$date, "%b"), cex.axis = .7)
+# axis(1, water2018.5$date, format(water2018.5$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.5$date)), as.Date(max(water2018.5$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
@@ -1121,7 +1178,10 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.2$date, format(water2018.2$date, "%b"), cex.axis = .7)
+# axis(1, water2018.2$date, format(water2018.2$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.2$date)), as.Date(max(water2018.2$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
@@ -1174,7 +1234,9 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.3$date, format(water2018.3$date, "%b"), cex.axis = .7)
+# axis(1, water2018.3$date, format(water2018.3$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.3$date)), as.Date(max(water2018.3$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
@@ -1226,7 +1288,10 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.4$date, format(water2018.4$date, "%b"), cex.axis = .7)
+# axis(1, water2018.4$date, format(water2018.4$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.4$date)), as.Date(max(water2018.4$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
@@ -1277,7 +1342,10 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.5$date, format(water2018.5$date, "%b"), cex.axis = .7)
+# axis(1, water2018.5$date, format(water2018.5$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.5$date)), as.Date(max(water2018.5$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
@@ -1337,7 +1405,10 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.8$date, format(water2018.8$date, "%b"), cex.axis = .7)
+# axis(1, water2018.8$date, format(water2018.8$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.8$date)), as.Date(max(water2018.8$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
@@ -1388,7 +1459,10 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.9$date, format(water2018.9$date, "%b"), cex.axis = .7)
+# axis(1, water2018.9$date, format(water2018.9$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.9$date)), as.Date(max(water2018.9$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
@@ -1439,7 +1513,10 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.12$date, format(water2018.12$date, "%b"), cex.axis = .7)
+# axis(1, water2018.12$date, format(water2018.12$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.12$date)), as.Date(max(water2018.12$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
@@ -1490,7 +1567,10 @@ mtext(2, text = 'TOC(mg/L)', line = 16.2)
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, water2018.13$date, format(water2018.13$date, "%b"), cex.axis = .7)
+# axis(1, water2018.13$date, format(water2018.13$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(water2018.13$date)), as.Date(max(water2018.13$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black',line = 2)
 
 # And then plot the legend.
@@ -1590,7 +1670,10 @@ mtext(2, text = '流石蛾科總數', line = 9.2, family = "蘋方-繁 標準體
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.9$date, format(amphibia2018.total.9$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.9$date, format(amphibia2018.total.9$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.9$date)), as.Date(max(amphibia2018.total.9$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
@@ -1688,7 +1771,10 @@ mtext(2, text = '流石蛾科總數', line = 16.2, family = "蘋方-繁 標準�
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.2$date, format(amphibia2018.total.2$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.2$date, format(amphibia2018.total.2$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.2$date)), as.Date(max(amphibia2018.total.2$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
@@ -1783,7 +1869,10 @@ mtext(2, text = '流石蛾科總數', line = 16.2, family = "蘋方-繁 標準�
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.3$date, format(amphibia2018.total.3$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.3$date, format(amphibia2018.total.3$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.3$date)), as.Date(max(amphibia2018.total.3$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
@@ -1880,7 +1969,10 @@ mtext(2, text = '流石蛾科總數', line = 16.2, family = "蘋方-繁 標準�
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.4$date, format(amphibia2018.total.4$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.4$date, format(amphibia2018.total.4$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.4$date)), as.Date(max(amphibia2018.total.4$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
@@ -1974,7 +2066,10 @@ mtext(2, text = '流石蛾科總數', line = 16.2, family = "蘋方-繁 標準�
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.5$date, format(amphibia2018.total.5$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.5$date, format(amphibia2018.total.5$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.5$date)), as.Date(max(amphibia2018.total.5$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
@@ -2032,7 +2127,10 @@ mtext(2, text = '流石蛾科總數', line = 16.2, family = "蘋方-繁 標準�
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.2$date, format(amphibia2018.total.2$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.2$date, format(amphibia2018.total.2$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.2$date)), as.Date(max(amphibia2018.total.2$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
@@ -2083,7 +2181,10 @@ mtext(2, text = '流石蛾科總數', line = 16.2, family = "蘋方-繁 標準�
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.3$date, format(amphibia2018.total.3$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.3$date, format(amphibia2018.total.3$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.3$date)), as.Date(max(amphibia2018.total.3$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
@@ -2135,7 +2236,10 @@ mtext(2, text = '流石蛾科總數', line = 16.2, family = "蘋方-繁 標準�
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.4$date, format(amphibia2018.total.4$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.4$date, format(amphibia2018.total.4$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.4$date)), as.Date(max(amphibia2018.total.4$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
@@ -2186,7 +2290,10 @@ mtext(2, text = '流石蛾科總數', line = 16.2, family = "蘋方-繁 標準�
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.5$date, format(amphibia2018.total.5$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.5$date, format(amphibia2018.total.5$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.5$date)), as.Date(max(amphibia2018.total.5$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
@@ -2246,7 +2353,10 @@ mtext(2, text = '流石蛾科總數', line = 16.2, family = "蘋方-繁 標準�
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.8$date, format(amphibia2018.total.8$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.8$date, format(amphibia2018.total.8$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.8$date)), as.Date(max(amphibia2018.total.8$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
@@ -2298,7 +2408,10 @@ mtext(2, text = '流石蛾科總數', line = 9.2, family = "蘋方-繁 標準體
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.9$date, format(amphibia2018.total.9$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.9$date, format(amphibia2018.total.9$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.9$date)), as.Date(max(amphibia2018.total.9$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
@@ -2350,7 +2463,10 @@ mtext(2, text = '流石蛾科總數', line = 16.2, family = "蘋方-繁 標準�
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.12$date, format(amphibia2018.total.12$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.12$date, format(amphibia2018.total.12$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.12$date)), as.Date(max(amphibia2018.total.12$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
@@ -2402,7 +2518,10 @@ mtext(2, text = '流石蛾科總數', line = 16.2, family = "蘋方-繁 標準�
 
 
 # draw the X-axis, which is of course shared by all the y-axis.
-axis(1, amphibia2018.total.13$date, format(amphibia2018.total.13$date, "%b"), cex.axis = .7)
+# axis(1, amphibia2018.total.13$date, format(amphibia2018.total.13$date, "%b"), cex.axis = .7)
+daterange=c(as.Date(min(amphibia2018.total.13$date)), as.Date(max(amphibia2018.total.13$date)))
+axis.Date(1, at=seq(daterange[1], daterange[2], by="month"), format="%b")
+
 mtext('date', side = 1, col = 'black', line = 2)
 
 # And then plot the legend.
