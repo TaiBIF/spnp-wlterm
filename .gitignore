@@ -1,5 +1,8 @@
-.DS_Store
-Icon$'\r'
-archive
-webapp/conn_clean.php
+.idea
+
 webapp/conn.php
+webapp/conn_clean.php
+
+archive
+
+.DS_Store
